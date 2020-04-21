@@ -28,7 +28,7 @@ import com.niton.media.json.types.advanced.JsonHashMap;
  */
 @SuppressWarnings("unchecked")
 public class JsonSerializer {
-	private static HashMap<Class<?>, Class<? extends JsonValue<?>>> typeTable = new HashMap<>();
+	private static HashMap<Class<?>, Class<? extends JsonValue>> typeTable = new HashMap<>();
 	static {
 		registerJsonType(String.class, JsonString.class);
 		registerJsonType(Character.class, JsonChar.class);
@@ -40,15 +40,15 @@ public class JsonSerializer {
 		registerJsonType(Float.class, JsonFloat.class);
 		registerJsonType(Double.class, JsonDouble.class);
 		
-		registerJsonType(ArrayList.class, (Class<? extends JsonValue<?>>) JsonArrayList.class);
-		registerJsonType(HashMap.class, (Class<? extends JsonValue<?>>) JsonHashMap.class);
+		registerJsonType(ArrayList.class, JsonArrayList.class);
+		registerJsonType(HashMap.class, JsonHashMap.class);
 	}
 
 	public static <T> Class<? extends JsonValue<T>> getJsonFor(Class<T> c) {
 		return (Class<? extends JsonValue<T>>) typeTable.get(c);
 	}
 
-	public static void registerJsonType(Class<?> baseClass, Class<? extends JsonValue<?>> jsonType) {
+	public static void registerJsonType(Class<?> baseClass, Class<? extends JsonValue> jsonType) {
 		try {
 			if (jsonType.getConstructor() != null)
 				typeTable.put(baseClass, jsonType);
